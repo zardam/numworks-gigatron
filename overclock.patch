@@ -1,0 +1,35 @@
+diff --git a/ion/src/device/n0110/drivers/config/clocks.h b/ion/src/device/n0110/drivers/config/clocks.h
+index 0cc551cb0..5f9f224e9 100644
+--- a/ion/src/device/n0110/drivers/config/clocks.h
++++ b/ion/src/device/n0110/drivers/config/clocks.h
+@@ -22,10 +22,10 @@ namespace Config {
+ 
+ constexpr static int HSE = 8;
+ constexpr static int PLL_M = 8;
+-constexpr static int PLL_N = 384;
++constexpr static int PLL_N = 480;
+ constexpr static Regs::RCC::PLLCFGR::PLLP PLL_P_Reg = Regs::RCC::PLLCFGR::PLLP::PLLP2;
+ constexpr static int PLL_P = ((int)PLL_P_Reg | 1) << 1;
+-constexpr static int PLL_Q = 8;
++constexpr static int PLL_Q = 10;
+ constexpr static int SYSCLKFrequency = ((HSE/PLL_M)*PLL_N)/PLL_P;
+ constexpr static int AHBPrescaler = 1;
+ /* To slow down the whole system, we prescale the AHB clock.
+@@ -35,7 +35,7 @@ constexpr static int AHBPrescaler = 1;
+ constexpr static Regs::RCC::CFGR::AHBPrescaler AHBLowFrequencyPrescalerReg = Regs::RCC::CFGR::AHBPrescaler::SysClkDividedBy8;
+ constexpr static int AHBLowFrequencyPrescaler = 8;
+ constexpr static int HCLKFrequency = SYSCLKFrequency/AHBPrescaler;
+-static_assert(HCLKFrequency == 192, "HCLK frequency changed!");
++static_assert(HCLKFrequency == 240, "HCLK frequency changed!");
+ constexpr static int HCLKLowFrequency = SYSCLKFrequency/AHBLowFrequencyPrescaler;
+ constexpr static int AHBFrequency = HCLKFrequency;
+ //constexpr static int AHBLowFrequency = HCLKLowFrequency;
+@@ -58,7 +58,7 @@ constexpr static double modulationDepth = 0.25; // Must be (0.25% <= md <= 2%)
+ // INCSTEP = round[(2^15 -1)xmdxPLLN)/(100x5xMODPER)
+ constexpr static uint32_t SSCG_INCSTEP = (32767*modulationDepth*PLL_N)/(1.0*100*5*SSCG_MODPER);
+ static_assert(SSCG_MODPER == 250, "SSCG_MODPER changed");
+-static_assert(SSCG_INCSTEP == 25, "SSCG_INCSTEP changed");
++static_assert(SSCG_INCSTEP == 31, "SSCG_INCSTEP changed");
+ static_assert(SSCG_INCSTEP * SSCG_MODPER < 32767, "Wrong values for the Spread spectrun clock generator");
+ }
+ }
